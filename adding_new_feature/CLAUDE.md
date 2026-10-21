@@ -50,6 +50,13 @@ These rules ensure maintainability, safety, and developer velocity.
 - **T-6 (SHOULD)** Use the project's test tool (pytest for Python, Vitest/Jest for JS) and its test folder layout.
 - **T-7 (SHOULD)** Mock only outside services (payments, email, third-party APIs); test real logic for real.
 - **T-8 (MUST)** When done, report which files changed, what was tested and what wasn't, and any risks (DB change, new env variable).
+- **T-9 (MUST)** For anything you couldn't test yourself, give the user a manual test list. For each item: **how** (exact command or click steps), **why** it needs checking, and **expected** result.
+  ```
+  1. Postgres tests
+     How: run `.venv/bin/pytest tests/test_team.py`
+     Why: the new query only runs on real Postgres, not the test database
+     Expected: all tests pass, e.g. "5 passed"
+  ```
 
 ---
 
