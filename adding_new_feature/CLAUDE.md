@@ -50,12 +50,28 @@ These rules ensure maintainability, safety, and developer velocity.
 - **T-6 (SHOULD)** Use the project's test tool (pytest for Python, Vitest/Jest for JS) and its test folder layout.
 - **T-7 (SHOULD)** Mock only outside services (payments, email, third-party APIs); test real logic for real.
 - **T-8 (MUST)** When done, report which files changed, what was tested and what wasn't, and any risks (DB change, new env variable).
-- **T-9 (MUST)** For anything you couldn't test yourself, give the user a manual test list. For each item: **how** (exact command or click steps), **why** it needs checking, and **expected** result.
-  ```
-  1. Postgres tests
-     How: run `.venv/bin/pytest tests/test_team.py`
-     Why: the new query only runs on real Postgres, not the test database
-     Expected: all tests pass, e.g. "5 passed"
+- **T-9 (MUST)** For anything you couldn't test yourself, write a tester handoff file `testing/<feature>/handoff.md`. Write it once per feature when the feature is ready for testing (works start to finish, automatic tests pass), not for every small change. Each feature lives on its own git branch.
+- **T-10 (MUST)** Start the handoff with its type: `Independent` (test any time), `Depends on: <feature>` (test that first), or `Changes DB structure` (test alone). A feature can have more than one.
+- **T-11 (MUST)** Each scenario gives **how** (exact command or click steps), **why** it needs checking, and **expected** result.
+- **T-12 (MUST)** Before adding test data, show a short summary (tables, row counts, what each covers) and ask. Add it only if the user approves; if they refuse, don't add it.
+- **T-13 (MUST)** Test data goes only in the local/test database: realistic but made up, every row tagged `TEST_<feature>`, created by `testing/<feature>/seed.py` with all the data that feature needs.
+- **T-14 (MUST)** When the user says a feature's test is done, run `testing/<feature>/cleanup.py`, which deletes only that feature's tagged rows.
+  ```md
+  # Test: team-page
+  Type: Independent
+  Branch: feature/team-page
+  Data tag: TEST_team_page
+
+  ## What changed
+  ## Setup
+  python testing/team-page/seed.py
+  ## Scenarios
+  1. Grouped calls show as one row
+     How: open Team page → find TEST_Arjun
+     Why: 5 calls from one student should group together
+     Expected: one row with 5 lines inside
+  ## Cleanup
+  python testing/team-page/cleanup.py
   ```
 
 ---
