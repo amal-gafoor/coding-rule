@@ -82,3 +82,9 @@ These rules ensure maintainability, safety, and developer velocity.
 - **N-2 (MUST NOT)** Delete an existing file, or replace a whole file from scratch, without asking. Normal edits inside files need no asking. Files created in the same task (temp files, debug scripts) may be cleaned up.
 - **N-3 (MUST NOT)** Run destructive database commands (`DELETE`, `DROP`, `TRUNCATE`, bulk `UPDATE`) on real data without asking. A local test database created for testing is fine.
 - **N-4 (MUST NOT)** Change anything live (deploy, production database, live settings) without asking.
+
+---
+
+## 5 — UI/UX
+
+- **UI-1 (MUST)** For any UI/UX work, follow the `ui-ux-heuristics` skill.
